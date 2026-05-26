@@ -11,17 +11,21 @@
         h1 { font-size: 2.5rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.5rem; }
         p.subtitle { color: #777; font-size: 1.1rem; margin-bottom: 3rem; }
         
-        .container { max-width: 1000px; margin: 0 auto; padding: 0 2rem; }
+        /* Contenedor un poco más angosto para que las fotos verticales no se vean gigantes */
+        .container { max-width: 700px; margin: 0 auto; padding: 0 2rem; }
         
         .bio-section { background: #fff; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 4rem; }
         .bio-section h2 { margin-bottom: 1rem; font-size: 1.5rem; }
         
         .gallery-title { text-align: center; margin-bottom: 2rem; font-size: 1.8rem; text-transform: uppercase; letter-spacing: 1px; }
         
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 4rem; }
-        .card { background: #fff; border-radius: 4px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: transform 0.3s ease; }
-        .card:hover { transform: translateY(-5px); }
-        .card img { width: 100%; height: 250px; object-fit: cover; display: block; background-color: #eee; }
+        /* Cambiamos la cuadrícula a una sola columna apilada verticalmente */
+        .grid { display: flex; flex-direction: column; gap: 3rem; margin-bottom: 4rem; align-items: center; }
+        
+        .card { width: 100%; background: #fff; border-radius: 4px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        
+        /* Altura automática para que respete tu formato original (vertical u horizontal) */
+        .card img { width: 100%; height: auto; display: block; background-color: #eee; }
         
         footer { text-align: center; padding: 3rem; font-size: 0.9rem; color: #888; border-top: 1px solid #eaeaea; margin-top: 2rem; }
     </style>
