@@ -19,7 +19,7 @@
             overflow-x: hidden;
         }
 
-        /* --- EFECTO APPLE (FONDO LIGERO) --- */
+        /* --- FONDO AURORA APPLE (OPTIMIZADO) --- */
         .aurora-bg {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             z-index: -1; background-color: #0c0c0e; overflow: hidden;
@@ -65,22 +65,16 @@
         .bio-section h2 { margin-bottom: 1.5rem; font-size: 2rem; color: #fff; text-align: center;}
         .bio-section p { font-weight: 300; font-size: 1.05rem; color: #bbb; text-align: justify; margin-bottom: 1rem; }
         
-        /* --- CINTA INFINITA CON GEOMETRÍA HIPERBÓLICA --- */
-        .marquee-section { width: 100%; margin-bottom: 5rem; position: relative; }
+        /* --- NUEVA GEOMETRÍA: CARRUSEL EN ARCO (EFECTO SONRISA) --- */
+        .marquee-section { width: 100%; margin-bottom: 6rem; position: relative; }
         .marquee-title { text-align: center; margin-bottom: 2rem; font-size: 1.5rem; letter-spacing: 2px; color: #fff; }
+        
         .marquee-container {
             width: 100%; overflow: hidden; white-space: nowrap; position: relative;
-            padding: 3rem 0; /* Más espacio para que las fotos crezcan a los lados */
+            padding: 5rem 0; /* Espacio vertical para que la curva tenga donde subir */
             background: rgba(0,0,0,0.2); backdrop-filter: blur(5px);
             border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05);
         }
-        
-        /* Máscaras laterales para difuminar bordes */
-        .marquee-container::before, .marquee-container::after {
-            content: ""; position: absolute; top: 0; width: 150px; height: 100%; z-index: 5; pointer-events: none;
-        }
-        .marquee-container::before { left: 0; background: linear-gradient(to right, #0c0c0e, transparent); }
-        .marquee-container::after { right: 0; background: linear-gradient(to left, #0c0c0e, transparent); }
 
         .marquee-track {
             display: inline-flex; width: fit-content; align-items: center;
@@ -90,25 +84,32 @@
         .marquee-track:hover { animation-play-state: paused; }
 
         .marquee-item {
-            display: inline-block; width: 200px; height: 120px; margin: 0 20px; flex-shrink: 0;
-            cursor: pointer; position: relative;
-        }
-        
-        /* La imagen es la que se escala con el JS para crear la geometría */
-        .geom-img {
-            width: 100%; height: 100%; object-fit: cover; border-radius: 8px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.6); transition: filter 0.3s;
+            /* Dimensiones más verticales parecidas a tu imagen de referencia */
+            display: inline-block; width: 220px; height: 300px; margin: 0 15px; flex-shrink: 0;
+            border-radius: 16px; overflow: hidden; cursor: pointer;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            /* El transform se inyecta por JS, así que no le ponemos transición aquí para evitar lag */
             will-change: transform;
         }
         
-        .marquee-item:hover .geom-img { filter: brightness(1.2); }
+        .marquee-item img {
+            width: 100%; height: 100%; object-fit: cover;
+            /* El efecto hover lo hace la imagen por dentro */
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.4s ease;
+            filter: brightness(0.85); /* Un poquito oscuro por defecto */
+        }
+        
+        .marquee-item:hover img { 
+            transform: scale(1.1); 
+            filter: brightness(1.1); /* Se ilumina al pasar el mouse */
+        }
 
         @keyframes scroll-marquee {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); } 
         }
         
-        /* --- GALERÍA PRINCIPAL SIN FILTROS PESADOS --- */
+        /* --- GALERÍA PRINCIPAL (SIN FILTROS PARA CARGA RÁPIDA) --- */
         .gallery-title { text-align: center; margin-bottom: 3rem; font-size: 2.5rem; letter-spacing: 2px; color: #fff; position: relative; }
         .gallery-title::after { content: ''; display: block; width: 50px; height: 2px; background: #555; margin: 15px auto 0; }
         .grid { display: flex; flex-direction: column; gap: 4rem; margin-bottom: 5rem; align-items: center; }
@@ -121,7 +122,7 @@
             will-change: transform;
         }
         .card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.8); }
-        .card img { width: 100%; height: auto; display: block; } /* Carga ligera sin filtros */
+        .card img { width: 100%; height: auto; display: block; } /* Limpio y rápido */
 
         /* BOTÓN VOLVER ARRIBA */
         #btnTop {
@@ -162,66 +163,66 @@
         </section>
     </div>
 
-    <!-- CINTA DE FOTOS INFINITA (Geometría hiperbólica) -->
+    <!-- CINTA DE FOTOS EN ARCO 3D (Ref. U-Shape) -->
     <section class="marquee-section fade-in">
         <h2 class="marquee-title">Índice Visual</h2>
         <div class="marquee-container">
             <div class="marquee-track">
                 <!-- GRUPO 1 -->
-                <a href="#foto1" class="marquee-item"><img class="geom-img" src="01FD99A0-4FBE-4B66-B207-AEE208810C25.jpg"></a>
-                <a href="#foto2" class="marquee-item"><img class="geom-img" src="15273055-4BC8-41C4-A528-32271F50D23A.jpg"></a>
-                <a href="#foto3" class="marquee-item"><img class="geom-img" src="24127499-C285-4C0F-A297-0FE4DC64408E.jpg"></a>
-                <a href="#foto4" class="marquee-item"><img class="geom-img" src="3053C05D-1549-459F-9BB6-617CEDEE0307.jpg"></a>
-                <a href="#foto5" class="marquee-item"><img class="geom-img" src="3682CB64-6C63-4851-A91E-C50A310D73EB.jpg"></a>
-                <a href="#foto6" class="marquee-item"><img class="geom-img" src="41648829-06E1-48FC-A6CF-1CE4588B211F.jpg"></a>
-                <a href="#foto7" class="marquee-item"><img class="geom-img" src="45F91B98-E449-4D96-A0C0-8693C2E9C220.jpg"></a>
-                <a href="#foto8" class="marquee-item"><img class="geom-img" src="6F4E92AB-DB37-49AD-BC1B-03829FD1E95C.jpg"></a>
-                <a href="#foto9" class="marquee-item"><img class="geom-img" src="6F6A197E-2540-46ED-97E2-365C86D99606.jpg"></a>
-                <a href="#foto10" class="marquee-item"><img class="geom-img" src="8A5B4F38-D47C-4059-AE6B-F32A57BCBAA8.jpg"></a>
-                <a href="#foto11" class="marquee-item"><img class="geom-img" src="8EF672E5-F83C-4DAA-A7FB-C8B748182FCD.jpg"></a>
-                <a href="#foto12" class="marquee-item"><img class="geom-img" src="A827DCCC-C7F3-47DA-B052-BC6A6E4B87CD.jpg"></a>
-                <a href="#foto13" class="marquee-item"><img class="geom-img" src="ADD52A9A-CEB9-4838-9DD6-EB6D698BE8F0.jpg"></a>
-                <a href="#foto14" class="marquee-item"><img class="geom-img" src="B4507248-089F-4A31-B7E1-625C47AFB45B.jpg"></a>
-                <a href="#foto15" class="marquee-item"><img class="geom-img" src="CE124D54-39D2-4D98-8E96-06ADF3FEE32A.jpg"></a>
-                <a href="#foto16" class="marquee-item"><img class="geom-img" src="CFD15C81-80FC-4519-8058-E7C510F24AFD.jpg"></a>
-                <a href="#foto17" class="marquee-item"><img class="geom-img" src="E17332B7-99BF-4923-8039-34D75306E454.jpg"></a>
-                <a href="#foto18" class="marquee-item"><img class="geom-img" src="E2E376A3-62C2-4CEF-A7B4-5206C45CB3D2.jpg"></a>
-                <a href="#foto19" class="marquee-item"><img class="geom-img" src="25-32_page-0001.jpg"></a>
-                <a href="#foto20" class="marquee-item"><img class="geom-img" src="25-32_page-0002.jpg"></a>
-                <a href="#foto21" class="marquee-item"><img class="geom-img" src="25-32_page-0003.jpg"></a>
-                <a href="#foto22" class="marquee-item"><img class="geom-img" src="25-32_page-0004.jpg"></a>
-                <a href="#foto23" class="marquee-item"><img class="geom-img" src="25-32_page-0005.jpg"></a>
-                <a href="#foto24" class="marquee-item"><img class="geom-img" src="25-32_page-0006.jpg"></a>
-                <a href="#foto25" class="marquee-item"><img class="geom-img" src="25-32_page-0007.jpg"></a>
-                <a href="#foto26" class="marquee-item"><img class="geom-img" src="25-32_page-0008.jpg"></a>
+                <a href="#foto1" class="marquee-item"><img src="01FD99A0-4FBE-4B66-B207-AEE208810C25.jpg"></a>
+                <a href="#foto2" class="marquee-item"><img src="15273055-4BC8-41C4-A528-32271F50D23A.jpg"></a>
+                <a href="#foto3" class="marquee-item"><img src="24127499-C285-4C0F-A297-0FE4DC64408E.jpg"></a>
+                <a href="#foto4" class="marquee-item"><img src="3053C05D-1549-459F-9BB6-617CEDEE0307.jpg"></a>
+                <a href="#foto5" class="marquee-item"><img src="3682CB64-6C63-4851-A91E-C50A310D73EB.jpg"></a>
+                <a href="#foto6" class="marquee-item"><img src="41648829-06E1-48FC-A6CF-1CE4588B211F.jpg"></a>
+                <a href="#foto7" class="marquee-item"><img src="45F91B98-E449-4D96-A0C0-8693C2E9C220.jpg"></a>
+                <a href="#foto8" class="marquee-item"><img src="6F4E92AB-DB37-49AD-BC1B-03829FD1E95C.jpg"></a>
+                <a href="#foto9" class="marquee-item"><img src="6F6A197E-2540-46ED-97E2-365C86D99606.jpg"></a>
+                <a href="#foto10" class="marquee-item"><img src="8A5B4F38-D47C-4059-AE6B-F32A57BCBAA8.jpg"></a>
+                <a href="#foto11" class="marquee-item"><img src="8EF672E5-F83C-4DAA-A7FB-C8B748182FCD.jpg"></a>
+                <a href="#foto12" class="marquee-item"><img src="A827DCCC-C7F3-47DA-B052-BC6A6E4B87CD.jpg"></a>
+                <a href="#foto13" class="marquee-item"><img src="ADD52A9A-CEB9-4838-9DD6-EB6D698BE8F0.jpg"></a>
+                <a href="#foto14" class="marquee-item"><img src="B4507248-089F-4A31-B7E1-625C47AFB45B.jpg"></a>
+                <a href="#foto15" class="marquee-item"><img src="CE124D54-39D2-4D98-8E96-06ADF3FEE32A.jpg"></a>
+                <a href="#foto16" class="marquee-item"><img src="CFD15C81-80FC-4519-8058-E7C510F24AFD.jpg"></a>
+                <a href="#foto17" class="marquee-item"><img src="E17332B7-99BF-4923-8039-34D75306E454.jpg"></a>
+                <a href="#foto18" class="marquee-item"><img src="E2E376A3-62C2-4CEF-A7B4-5206C45CB3D2.jpg"></a>
+                <a href="#foto19" class="marquee-item"><img src="25-32_page-0001.jpg"></a>
+                <a href="#foto20" class="marquee-item"><img src="25-32_page-0002.jpg"></a>
+                <a href="#foto21" class="marquee-item"><img src="25-32_page-0003.jpg"></a>
+                <a href="#foto22" class="marquee-item"><img src="25-32_page-0004.jpg"></a>
+                <a href="#foto23" class="marquee-item"><img src="25-32_page-0005.jpg"></a>
+                <a href="#foto24" class="marquee-item"><img src="25-32_page-0006.jpg"></a>
+                <a href="#foto25" class="marquee-item"><img src="25-32_page-0007.jpg"></a>
+                <a href="#foto26" class="marquee-item"><img src="25-32_page-0008.jpg"></a>
                 
-                <!-- GRUPO 2 (Duplicado para el loop infinito) -->
-                <a href="#foto1" class="marquee-item"><img class="geom-img" src="01FD99A0-4FBE-4B66-B207-AEE208810C25.jpg"></a>
-                <a href="#foto2" class="marquee-item"><img class="geom-img" src="15273055-4BC8-41C4-A528-32271F50D23A.jpg"></a>
-                <a href="#foto3" class="marquee-item"><img class="geom-img" src="24127499-C285-4C0F-A297-0FE4DC64408E.jpg"></a>
-                <a href="#foto4" class="marquee-item"><img class="geom-img" src="3053C05D-1549-459F-9BB6-617CEDEE0307.jpg"></a>
-                <a href="#foto5" class="marquee-item"><img class="geom-img" src="3682CB64-6C63-4851-A91E-C50A310D73EB.jpg"></a>
-                <a href="#foto6" class="marquee-item"><img class="geom-img" src="41648829-06E1-48FC-A6CF-1CE4588B211F.jpg"></a>
-                <a href="#foto7" class="marquee-item"><img class="geom-img" src="45F91B98-E449-4D96-A0C0-8693C2E9C220.jpg"></a>
-                <a href="#foto8" class="marquee-item"><img class="geom-img" src="6F4E92AB-DB37-49AD-BC1B-03829FD1E95C.jpg"></a>
-                <a href="#foto9" class="marquee-item"><img class="geom-img" src="6F6A197E-2540-46ED-97E2-365C86D99606.jpg"></a>
-                <a href="#foto10" class="marquee-item"><img class="geom-img" src="8A5B4F38-D47C-4059-AE6B-F32A57BCBAA8.jpg"></a>
-                <a href="#foto11" class="marquee-item"><img class="geom-img" src="8EF672E5-F83C-4DAA-A7FB-C8B748182FCD.jpg"></a>
-                <a href="#foto12" class="marquee-item"><img class="geom-img" src="A827DCCC-C7F3-47DA-B052-BC6A6E4B87CD.jpg"></a>
-                <a href="#foto13" class="marquee-item"><img class="geom-img" src="ADD52A9A-CEB9-4838-9DD6-EB6D698BE8F0.jpg"></a>
-                <a href="#foto14" class="marquee-item"><img class="geom-img" src="B4507248-089F-4A31-B7E1-625C47AFB45B.jpg"></a>
-                <a href="#foto15" class="marquee-item"><img class="geom-img" src="CE124D54-39D2-4D98-8E96-06ADF3FEE32A.jpg"></a>
-                <a href="#foto16" class="marquee-item"><img class="geom-img" src="CFD15C81-80FC-4519-8058-E7C510F24AFD.jpg"></a>
-                <a href="#foto17" class="marquee-item"><img class="geom-img" src="E17332B7-99BF-4923-8039-34D75306E454.jpg"></a>
-                <a href="#foto18" class="marquee-item"><img class="geom-img" src="E2E376A3-62C2-4CEF-A7B4-5206C45CB3D2.jpg"></a>
-                <a href="#foto19" class="marquee-item"><img class="geom-img" src="25-32_page-0001.jpg"></a>
-                <a href="#foto20" class="marquee-item"><img class="geom-img" src="25-32_page-0002.jpg"></a>
-                <a href="#foto21" class="marquee-item"><img class="geom-img" src="25-32_page-0003.jpg"></a>
-                <a href="#foto22" class="marquee-item"><img class="geom-img" src="25-32_page-0004.jpg"></a>
-                <a href="#foto23" class="marquee-item"><img class="geom-img" src="25-32_page-0005.jpg"></a>
-                <a href="#foto24" class="marquee-item"><img class="geom-img" src="25-32_page-0006.jpg"></a>
-                <a href="#foto25" class="marquee-item"><img class="geom-img" src="25-32_page-0007.jpg"></a>
-                <a href="#foto26" class="marquee-item"><img class="geom-img" src="25-32_page-0008.jpg"></a>
+                <!-- GRUPO 2 (Duplicado para la cinta infinita) -->
+                <a href="#foto1" class="marquee-item"><img src="01FD99A0-4FBE-4B66-B207-AEE208810C25.jpg"></a>
+                <a href="#foto2" class="marquee-item"><img src="15273055-4BC8-41C4-A528-32271F50D23A.jpg"></a>
+                <a href="#foto3" class="marquee-item"><img src="24127499-C285-4C0F-A297-0FE4DC64408E.jpg"></a>
+                <a href="#foto4" class="marquee-item"><img src="3053C05D-1549-459F-9BB6-617CEDEE0307.jpg"></a>
+                <a href="#foto5" class="marquee-item"><img src="3682CB64-6C63-4851-A91E-C50A310D73EB.jpg"></a>
+                <a href="#foto6" class="marquee-item"><img src="41648829-06E1-48FC-A6CF-1CE4588B211F.jpg"></a>
+                <a href="#foto7" class="marquee-item"><img src="45F91B98-E449-4D96-A0C0-8693C2E9C220.jpg"></a>
+                <a href="#foto8" class="marquee-item"><img src="6F4E92AB-DB37-49AD-BC1B-03829FD1E95C.jpg"></a>
+                <a href="#foto9" class="marquee-item"><img src="6F6A197E-2540-46ED-97E2-365C86D99606.jpg"></a>
+                <a href="#foto10" class="marquee-item"><img src="8A5B4F38-D47C-4059-AE6B-F32A57BCBAA8.jpg"></a>
+                <a href="#foto11" class="marquee-item"><img src="8EF672E5-F83C-4DAA-A7FB-C8B748182FCD.jpg"></a>
+                <a href="#foto12" class="marquee-item"><img src="A827DCCC-C7F3-47DA-B052-BC6A6E4B87CD.jpg"></a>
+                <a href="#foto13" class="marquee-item"><img src="ADD52A9A-CEB9-4838-9DD6-EB6D698BE8F0.jpg"></a>
+                <a href="#foto14" class="marquee-item"><img src="B4507248-089F-4A31-B7E1-625C47AFB45B.jpg"></a>
+                <a href="#foto15" class="marquee-item"><img src="CE124D54-39D2-4D98-8E96-06ADF3FEE32A.jpg"></a>
+                <a href="#foto16" class="marquee-item"><img src="CFD15C81-80FC-4519-8058-E7C510F24AFD.jpg"></a>
+                <a href="#foto17" class="marquee-item"><img src="E17332B7-99BF-4923-8039-34D75306E454.jpg"></a>
+                <a href="#foto18" class="marquee-item"><img src="E2E376A3-62C2-4CEF-A7B4-5206C45CB3D2.jpg"></a>
+                <a href="#foto19" class="marquee-item"><img src="25-32_page-0001.jpg"></a>
+                <a href="#foto20" class="marquee-item"><img src="25-32_page-0002.jpg"></a>
+                <a href="#foto21" class="marquee-item"><img src="25-32_page-0003.jpg"></a>
+                <a href="#foto22" class="marquee-item"><img src="25-32_page-0004.jpg"></a>
+                <a href="#foto23" class="marquee-item"><img src="25-32_page-0005.jpg"></a>
+                <a href="#foto24" class="marquee-item"><img src="25-32_page-0006.jpg"></a>
+                <a href="#foto25" class="marquee-item"><img src="25-32_page-0007.jpg"></a>
+                <a href="#foto26" class="marquee-item"><img src="25-32_page-0008.jpg"></a>
             </div>
         </div>
     </section>
@@ -269,27 +270,35 @@
     <button id="btnTop" title="Volver arriba">↑</button>
 
     <script>
-        // SCRIPT 1: GEOMETRÍA HIPERBÓLICA DEL CARRUSEL
-        const geomImages = document.querySelectorAll('.geom-img');
+        // SCRIPT 1: MAGIA DE LA GEOMETRÍA EN ARCO (PARÁBOLA)
+        const marqueeItems = document.querySelectorAll('.marquee-item');
         const screenCenter = window.innerWidth / 2;
-        const maxDist = window.innerWidth / 1.5;
 
         function updateGeometry() {
-            geomImages.forEach(img => {
-                const rect = img.parentElement.getBoundingClientRect();
+            marqueeItems.forEach(item => {
+                const rect = item.getBoundingClientRect();
                 const itemCenter = rect.left + (rect.width / 2);
-                const distance = Math.abs(itemCenter - screenCenter);
                 
-                // Normaliza la distancia y genera la curva (más grande en los bordes)
-                let normalized = distance / maxDist;
-                if (normalized > 1) normalized = 1;
+                // Distancia desde el centro real de la pantalla
+                const distanceFromCenter = itemCenter - screenCenter;
                 
-                const scale = 1 + (Math.pow(normalized, 2) * 0.45);
-                img.style.transform = `scale(${scale})`;
+                // Normalizamos la distancia (entre -1 y 1 para los extremos de la pantalla)
+                const normalizedDist = distanceFromCenter / screenCenter;
+                
+                // 1. Efecto "Sonrisa": Al elevar al cuadrado, siempre da positivo, y al multiplicar por -80 
+                // hace que las fotos suban hasta 80px en los extremos, creando la curva.
+                const translateY = Math.pow(normalizedDist, 2) * -80;
+                
+                // 2. Rotación: Rota las fotos hacia el centro. 
+                // Los de la izq (negativo) rotan en positivo (derecha). Los de la der (positivo) rotan negativo (izq).
+                const rotate = normalizedDist * -12; 
+                
+                // Aplicamos directo al contenedor (super fluido)
+                item.style.transform = `translateY(${translateY}px) rotate(${rotate}deg)`;
             });
             requestAnimationFrame(updateGeometry);
         }
-        updateGeometry(); // Inicia el ciclo súper ligero
+        updateGeometry();
 
         // SCRIPT 2: ANIMACIONES (Fade-in y Volver arriba)
         const observer = new IntersectionObserver((entries) => {
