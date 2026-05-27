@@ -14,7 +14,7 @@
             color: #e0e0e0; 
             line-height: 1.7; 
             position: relative;
-            overflow-x: hidden; /* Evita barras de desplazamiento raras por las nubes */
+            overflow-x: hidden;
         }
 
         /* --- EFECTO APPLE (MESH GRADIENT AURORA) --- */
@@ -34,26 +34,9 @@
             opacity: 0.6;
         }
 
-        .blob1 {
-            width: 50vw; height: 50vw;
-            background: #2a0080; /* Morado profundo */
-            top: -10%; left: -10%;
-            animation-delay: 0s;
-        }
-
-        .blob2 {
-            width: 40vw; height: 40vw;
-            background: #004d80; /* Azul océano */
-            bottom: -20%; right: -10%;
-            animation-delay: -5s;
-        }
-
-        .blob3 {
-            width: 45vw; height: 45vw;
-            background: #4d004d; /* Magenta muy oscuro */
-            top: 30%; left: 30%;
-            animation-delay: -10s;
-        }
+        .blob1 { width: 50vw; height: 50vw; background: #2a0080; top: -10%; left: -10%; animation-delay: 0s; }
+        .blob2 { width: 40vw; height: 40vw; background: #004d80; bottom: -20%; right: -10%; animation-delay: -5s; }
+        .blob3 { width: 45vw; height: 45vw; background: #4d004d; top: 30%; left: 30%; animation-delay: -10s; }
 
         @keyframes float {
             0% { transform: translate(0, 0) scale(1); }
@@ -61,18 +44,14 @@
             66% { transform: translate(-20px, 20px) scale(0.9); }
             100% { transform: translate(40px, 40px) scale(1.2); }
         }
-        /* ------------------------------------------ */
         
         header { text-align: center; padding: 5rem 2rem 3rem; }
         h1, h2 { font-family: 'Playfair Display', serif; font-weight: 600; }
         
         h1 { 
-            font-size: 3.5rem; 
-            letter-spacing: 3px; 
-            margin-bottom: 0.5rem;
+            font-size: 3.5rem; letter-spacing: 3px; margin-bottom: 0.5rem;
             background: linear-gradient(90deg, #fff, #999);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
         
         p.subtitle { color: #888; font-size: 1.1rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 3rem; }
@@ -81,96 +60,76 @@
         
         /* TARJETA BIOGRAFÍA CRISTAL ESMERILADO */
         .bio-section { 
-            background: rgba(20, 20, 25, 0.45); 
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            padding: 3rem; 
-            border-radius: 16px; 
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.6); 
-            margin-bottom: 5rem; 
+            background: rgba(20, 20, 25, 0.45); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            padding: 3rem; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6); margin-bottom: 5rem; 
         }
 
         .profile-pic {
             width: 160px; height: 160px; border-radius: 50%; object-fit: cover;
             margin: 0 auto 2rem; display: block;
-            border: 2px solid rgba(255,255,255,0.1);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 2px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
         
         .bio-section h2 { margin-bottom: 1.5rem; font-size: 2rem; color: #fff; text-align: center;}
         .bio-section p { font-weight: 300; font-size: 1.05rem; color: #bbb; text-align: justify; margin-bottom: 1rem; }
         
+        /* --- ESTILOS DEL CARRUSEL --- */
+        .carousel-section { width: 100%; margin-bottom: 5rem; position: relative; }
+        .carousel-title { text-align: center; margin-bottom: 2rem; font-size: 2rem; letter-spacing: 2px; color: #fff; }
+        
+        .carousel-container {
+            position: relative; width: 100%; overflow: hidden; border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8); border: 1px solid rgba(255,255,255,0.05);
+        }
+        .carousel-track { display: flex; transition: transform 0.5s ease-in-out; }
+        .carousel-slide { min-width: 100%; }
+        
+        /* Altura fija para que el carrusel no brinque */
+        .carousel-slide img {
+            width: 100%; height: 500px; object-fit: cover; display: block;
+            filter: grayscale(100%) contrast(1.1); transition: filter 0.5s ease;
+        }
+        .carousel-slide:hover img { filter: grayscale(0%) contrast(1); }
+
+        .carousel-btn {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background: rgba(0,0,0,0.5); color: white; border: none;
+            width: 45px; height: 45px; border-radius: 50%; cursor: pointer;
+            font-size: 1.2rem; z-index: 10; backdrop-filter: blur(5px); transition: background 0.3s;
+        }
+        .carousel-btn:hover { background: rgba(0,0,0,0.8); }
+        .carousel-btn.prev { left: 15px; }
+        .carousel-btn.next { right: 15px; }
+        
+        /* --- ESTILOS DE LA GALERÍA PRINCIPAL --- */
         .gallery-title { text-align: center; margin-bottom: 3rem; font-size: 2.5rem; letter-spacing: 2px; color: #fff; position: relative; }
         .gallery-title::after { content: ''; display: block; width: 50px; height: 2px; background: #555; margin: 15px auto 0; }
         
         .grid { display: flex; flex-direction: column; gap: 4rem; margin-bottom: 5rem; align-items: center; }
         
-        /* Animación inicial de scroll */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
+        .fade-in { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
         .fade-in.visible { opacity: 1; transform: translateY(0); }
 
         .card { 
-            width: 100%; 
-            background: #000; 
-            border-radius: 8px; 
-            overflow: hidden; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transition: transform 0.5s ease, box-shadow 0.5s ease;
-            position: relative;
+            width: 100%; background: #000; border-radius: 8px; overflow: hidden; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); transition: transform 0.5s ease, box-shadow 0.5s ease;
         }
-        
         .card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0,0,0,0.9); }
         
-        /* FOTOS EN BLANCO Y NEGRO A COLOR */
         .card img { 
             width: 100%; height: auto; display: block; 
-            transition: transform 0.7s ease, filter 0.7s ease;
-            filter: grayscale(100%) contrast(1.1); 
+            transition: transform 0.7s ease, filter 0.7s ease; filter: grayscale(100%) contrast(1.1); 
         }
-        
-        .card:hover img {
-            transform: scale(1.02);
-            filter: grayscale(0%) contrast(1); 
-        }
+        .card:hover img { transform: scale(1.02); filter: grayscale(0%) contrast(1); }
 
-        /* DATOS TÉCNICOS FLOTANTES */
-        .tech-data {
-            position: absolute;
-            bottom: 15px; right: 20px;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-family: monospace;
-            font-size: 0.75rem;
-            color: rgba(255,255,255,0.8);
-            letter-spacing: 1px;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: opacity 0.4s ease, transform 0.4s ease;
-            pointer-events: none;
-        }
-
-        .card:hover .tech-data { opacity: 1; transform: translateY(0); }
-        
         /* BOTÓN VOLVER ARRIBA */
         #btnTop {
-            position: fixed; bottom: 30px; right: 30px;
-            background: rgba(255,255,255,0.1);
+            position: fixed; bottom: 30px; right: 30px; background: rgba(255,255,255,0.1);
             backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-            color: #fff; width: 45px; height: 45px;
-            border-radius: 50%; border: 1px solid rgba(255,255,255,0.2);
-            font-size: 1.2rem; cursor: pointer;
-            display: flex; justify-content: center; align-items: center;
-            opacity: 0; pointer-events: none;
-            transition: opacity 0.3s ease, background 0.3s ease;
-            z-index: 1000;
+            color: #fff; width: 45px; height: 45px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2);
+            font-size: 1.2rem; cursor: pointer; display: flex; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s ease, background 0.3s ease; z-index: 1000;
         }
         #btnTop.show { opacity: 1; pointer-events: auto; }
         #btnTop:hover { background: rgba(255,255,255,0.3); }
@@ -180,6 +139,7 @@
 </head>
 <body>
 
+    <!-- Fondo Aurora -->
     <div class="aurora-bg">
         <div class="blob blob1"></div>
         <div class="blob blob2"></div>
@@ -192,6 +152,7 @@
     </header>
 
     <div class="container">
+        <!-- Sección de Biografía -->
         <section class="bio-section fade-in">
             <img src="7EC58761-F8E0-4D16-9789-39301297D48F.jpg" alt="Foto de Luver López" class="profile-pic">
             <h2>Sobre mí</h2>
@@ -200,36 +161,52 @@
             <p>Mis imágenes son el resultado de esa experiencia. Son un intento por capturar esa perspectiva de alguien que, inmerso en la cotidianidad, comprendió que por más que el entorno cambie bajo nuestros pies, siempre podemos mirar hacia el cenit y encontrar que esa misma luz sigue ahí, intacta.</p>
         </section>
 
-        <h2 class="gallery-title fade-in">Cenit Cotidiano</h2>
+        <!-- Carrusel Destacados -->
+        <section class="carousel-section fade-in">
+            <h2 class="carousel-title">Destacados</h2>
+            <div class="carousel-container">
+                <button class="carousel-btn prev" id="prevBtn">&#10094;</button>
+                <div class="carousel-track" id="track">
+                    <!-- Puedes cambiar los src de aquí si prefieres otras fotos de portada -->
+                    <div class="carousel-slide"><img src="01FD99A0-4FBE-4B66-B207-AEE208810C25.jpg" alt="Destacado 1"></div>
+                    <div class="carousel-slide"><img src="8EF672E5-F83C-4DAA-A7FB-C8B748182FCD.jpg" alt="Destacado 2"></div>
+                    <div class="carousel-slide"><img src="25-32_page-0008.jpg" alt="Destacado 3"></div>
+                </div>
+                <button class="carousel-btn next" id="nextBtn">&#10095;</button>
+            </div>
+        </section>
+
+        <!-- Galería Principal -->
+        <h2 class="gallery-title fade-in">Colección Completa</h2>
         <section class="grid">
-            <div class="card fade-in"><img src="01FD99A0-4FBE-4B66-B207-AEE208810C25.jpg" alt="Fotografía"><div class="tech-data">iPhone 15 | 26mm | f/1.6 | ISO 100</div></div>
-            <div class="card fade-in"><img src="15273055-4BC8-41C4-A528-32271F50D23A.jpg" alt="Fotografía"><div class="tech-data">iPhone 15 | 13mm | f/2.4 | ISO 80</div></div>
-            <div class="card fade-in"><img src="24127499-C285-4C0F-A297-0FE4DC64408E.jpg" alt="Fotografía"><div class="tech-data">iPhone 15 | 26mm | f/1.6 | ISO 125</div></div>
-            <div class="card fade-in"><img src="3053C05D-1549-459F-9BB6-617CEDEE0307.jpg" alt="Fotografía"><div class="tech-data">iPhone 15 | 52mm | f/1.6 | ISO 50</div></div>
-            <div class="card fade-in"><img src="3682CB64-6C63-4851-A91E-C50A310D73EB.jpg" alt="Fotografía"><div class="tech-data">iPhone 15 | 26mm | f/1.6 | ISO 200</div></div>
-            <div class="card fade-in"><img src="41648829-06E1-48FC-A6CF-1CE4588B211F.jpg" alt="Fotografía"><div class="tech-data">iPhone 15 | 13mm | f/2.4 | ISO 64</div></div>
-            <div class="card fade-in"><img src="45F91B98-E449-4D96-A0C0-8693C2E9C220.jpg" alt="Fotografía"><div class="tech-data">iPhone 15 | 26mm | f/1.6 | ISO 100</div></div>
-            <div class="card fade-in"><img src="6F4E92AB-DB37-49AD-BC1B-03829FD1E95C.jpg" alt="Fotografía"><div class="tech-data">iPhone 15 | 26mm | f/1.6 | ISO 160</div></div>
-            <div class="card fade-in"><img src="6F6A197E-2540-46ED-97E2-365C86D99606.jpg" alt="Fotografía"><div class="tech-data">iPhone 15 | 52mm | f/1.6 | ISO 100</div></div>
+            <div class="card fade-in"><img src="01FD99A0-4FBE-4B66-B207-AEE208810C25.jpg" alt="Fotografía"></div>
+            <div class="card fade-in"><img src="15273055-4BC8-41C4-A528-32271F50D23A.jpg" alt="Fotografía"></div>
+            <div class="card fade-in"><img src="24127499-C285-4C0F-A297-0FE4DC64408E.jpg" alt="Fotografía"></div>
+            <div class="card fade-in"><img src="3053C05D-1549-459F-9BB6-617CEDEE0307.jpg" alt="Fotografía"></div>
+            <div class="card fade-in"><img src="3682CB64-6C63-4851-A91E-C50A310D73EB.jpg" alt="Fotografía"></div>
+            <div class="card fade-in"><img src="41648829-06E1-48FC-A6CF-1CE4588B211F.jpg" alt="Fotografía"></div>
+            <div class="card fade-in"><img src="45F91B98-E449-4D96-A0C0-8693C2E9C220.jpg" alt="Fotografía"></div>
+            <div class="card fade-in"><img src="6F4E92AB-DB37-49AD-BC1B-03829FD1E95C.jpg" alt="Fotografía"></div>
+            <div class="card fade-in"><img src="6F6A197E-2540-46ED-97E2-365C86D99606.jpg" alt="Fotografía"></div>
             
-            <div class="card fade-in"><img src="8A5B4F38-D47C-4059-AE6B-F32A57BCBAA8.jpg" alt="Fotografía"><div class="tech-data">iPhone 15 | 26mm | f/1.6 | ISO 80</div></div>
-            <div class="card fade-in"><img src="8EF672E5-F83C-4DAA-A7FB-C8B748182FCD.jpg" alt="Fotografía"><div class="tech-data">iPhone 15 | 13mm | f/2.4 | ISO 100</div></div>
-            <div class="card fade-in"><img src="A827DCCC-C7F3-47DA-B052-BC6A6E4B87CD.jpg" alt="Fotografía"><div class="tech-data">iPhone 15 | 26mm | f/1.6 | ISO 125</div></div>
-            <div class="card fade-in"><img src="ADD52A9A-CEB9-4838-9DD6-EB6D698BE8F0.jpg" alt="Fotografía"><div class="tech-data">iPhone 15 | 52mm | f/1.6 | ISO 64</div></div>
-            <div class="card fade-in"><img src="B4507248-089F-4A31-B7E1-625C47AFB45B.jpg" alt="Fotografía"><div class="tech-data">iPhone 15 | 26mm | f/1.6 | ISO 250</div></div>
-            <div class="card fade-in"><img src="CE124D54-39D2-4D98-8E96-06ADF3FEE32A.jpg" alt="Fotografía"><div class="tech-data">iPhone 15 | 13mm | f/2.4 | ISO 100</div></div>
-            <div class="card fade-in"><img src="CFD15C81-80FC-4519-8058-E7C510F24AFD.jpg" alt="Fotografía"><div class="tech-data">iPhone 15 | 26mm | f/1.6 | ISO 320</div></div>
-            <div class="card fade-in"><img src="E17332B7-99BF-4923-8039-34D75306E454.jpg" alt="Fotografía"><div class="tech-data">iPhone 15 | 26mm | f/1.6 | ISO 100</div></div>
-            <div class="card fade-in"><img src="E2E376A3-62C2-4CEF-A7B4-5206C45CB3D2.jpg" alt="Fotografía"><div class="tech-data">iPhone 15 | 52mm | f/1.6 | ISO 80</div></div>
+            <div class="card fade-in"><img src="8A5B4F38-D47C-4059-AE6B-F32A57BCBAA8.jpg" alt="Fotografía"></div>
+            <div class="card fade-in"><img src="8EF672E5-F83C-4DAA-A7FB-C8B748182FCD.jpg" alt="Fotografía"></div>
+            <div class="card fade-in"><img src="A827DCCC-C7F3-47DA-B052-BC6A6E4B87CD.jpg" alt="Fotografía"></div>
+            <div class="card fade-in"><img src="ADD52A9A-CEB9-4838-9DD6-EB6D698BE8F0.jpg" alt="Fotografía"></div>
+            <div class="card fade-in"><img src="B4507248-089F-4A31-B7E1-625C47AFB45B.jpg" alt="Fotografía"></div>
+            <div class="card fade-in"><img src="CE124D54-39D2-4D98-8E96-06ADF3FEE32A.jpg" alt="Fotografía"></div>
+            <div class="card fade-in"><img src="CFD15C81-80FC-4519-8058-E7C510F24AFD.jpg" alt="Fotografía"></div>
+            <div class="card fade-in"><img src="E17332B7-99BF-4923-8039-34D75306E454.jpg" alt="Fotografía"></div>
+            <div class="card fade-in"><img src="E2E376A3-62C2-4CEF-A7B4-5206C45CB3D2.jpg" alt="Fotografía"></div>
             
-            <div class="card fade-in"><img src="25-32_page-0001.jpg" alt="Fotografía"><div class="tech-data">iPhone 15 | 26mm | f/1.6 | ISO 100</div></div>
-            <div class="card fade-in"><img src="25-32_page-0002.jpg" alt="Fotografía"><div class="tech-data">iPhone 15 | 13mm | f/2.4 | ISO 125</div></div>
-            <div class="card fade-in"><img src="25-32_page-0003.jpg" alt="Fotografía"><div class="tech-data">iPhone 15 | 26mm | f/1.6 | ISO 64</div></div>
-            <div class="card fade-in"><img src="25-32_page-0004.jpg" alt="Fotografía"><div class="tech-data">iPhone 15 | 52mm | f/1.6 | ISO 100</div></div>
-            <div class="card fade-in"><img src="25-32_page-0005.jpg" alt="Fotografía"><div class="tech-data">iPhone 15 | 26mm | f/1.6 | ISO 160</div></div>
-            <div class="card fade-in"><img src="25-32_page-0006.jpg" alt="Fotografía"><div class="tech-data">iPhone 15 | 13mm | f/2.4 | ISO 200</div></div>
-            <div class="card fade-in"><img src="25-32_page-0007.jpg" alt="Fotografía"><div class="tech-data">iPhone 15 | 26mm | f/1.6 | ISO 100</div></div>
-            <div class="card fade-in"><img src="25-32_page-0008.jpg" alt="Fotografía"><div class="tech-data">iPhone 15 | 52mm | f/1.6 | ISO 80</div></div>
+            <div class="card fade-in"><img src="25-32_page-0001.jpg" alt="Fotografía"></div>
+            <div class="card fade-in"><img src="25-32_page-0002.jpg" alt="Fotografía"></div>
+            <div class="card fade-in"><img src="25-32_page-0003.jpg" alt="Fotografía"></div>
+            <div class="card fade-in"><img src="25-32_page-0004.jpg" alt="Fotografía"></div>
+            <div class="card fade-in"><img src="25-32_page-0005.jpg" alt="Fotografía"></div>
+            <div class="card fade-in"><img src="25-32_page-0006.jpg" alt="Fotografía"></div>
+            <div class="card fade-in"><img src="25-32_page-0007.jpg" alt="Fotografía"></div>
+            <div class="card fade-in"><img src="25-32_page-0008.jpg" alt="Fotografía"></div>
         </section>
     </div>
 
@@ -237,10 +214,29 @@
         <p>&copy; 2026 Luver López. Todos los derechos reservados.</p>
     </footer>
 
+    <!-- Botón Volver Arriba -->
     <button id="btnTop" title="Volver arriba">↑</button>
 
     <script>
-        // Fade-In
+        // --- SCRIPT DEL CARRUSEL ---
+        const track = document.getElementById('track');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const slides = document.querySelectorAll('.carousel-slide');
+        let currentIndex = 0;
+        const totalSlides = slides.length;
+
+        nextBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % totalSlides;
+            track.style.transform = `translateX(-${currentIndex * 100}%)`;
+        });
+
+        prevBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+            track.style.transform = `translateX(-${currentIndex * 100}%)`;
+        });
+
+        // --- SCRIPT DE ANIMACIONES (Fade-in y Volver arriba) ---
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -254,7 +250,6 @@
             observer.observe(element);
         });
 
-        // Botón Top
         const btnTop = document.getElementById("btnTop");
         window.addEventListener("scroll", () => {
             if (window.scrollY > 600) {
