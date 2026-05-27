@@ -8,6 +8,9 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
+        /* Scroll suave para cuando le den clic a la cinta */
+        html { scroll-behavior: smooth; scroll-padding-top: 40px; }
+        
         body { 
             font-family: 'Montserrat', sans-serif; 
             background-color: #0c0c0e; 
@@ -19,25 +22,16 @@
 
         /* --- EFECTO APPLE (MESH GRADIENT AURORA) --- */
         .aurora-bg {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            z-index: -1;
-            background-color: #0c0c0e;
-            overflow: hidden;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1; background-color: #0c0c0e; overflow: hidden;
         }
-
         .blob {
-            position: absolute;
-            filter: blur(120px);
-            border-radius: 50%;
-            animation: float 20s infinite ease-in-out alternate;
-            opacity: 0.6;
+            position: absolute; filter: blur(120px); border-radius: 50%;
+            animation: float 20s infinite ease-in-out alternate; opacity: 0.6;
         }
-
         .blob1 { width: 50vw; height: 50vw; background: #2a0080; top: -10%; left: -10%; animation-delay: 0s; }
         .blob2 { width: 40vw; height: 40vw; background: #004d80; bottom: -20%; right: -10%; animation-delay: -5s; }
         .blob3 { width: 45vw; height: 45vw; background: #4d004d; top: 30%; left: 30%; animation-delay: -10s; }
-
         @keyframes float {
             0% { transform: translate(0, 0) scale(1); }
             33% { transform: translate(30px, -50px) scale(1.1); }
@@ -53,7 +47,6 @@
             background: linear-gradient(90deg, #fff, #999);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        
         p.subtitle { color: #888; font-size: 1.1rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 3rem; }
         
         .container { max-width: 800px; margin: 0 auto; padding: 0 2rem; }
@@ -64,59 +57,63 @@
             padding: 3rem; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.08);
             box-shadow: 0 30px 60px rgba(0,0,0,0.6); margin-bottom: 5rem; 
         }
-
         .profile-pic {
             width: 160px; height: 160px; border-radius: 50%; object-fit: cover;
-            margin: 0 auto 2rem; display: block;
-            border: 2px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin: 0 auto 2rem; display: block; border: 2px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-        
         .bio-section h2 { margin-bottom: 1.5rem; font-size: 2rem; color: #fff; text-align: center;}
         .bio-section p { font-weight: 300; font-size: 1.05rem; color: #bbb; text-align: justify; margin-bottom: 1rem; }
         
-        /* --- ESTILOS DEL CARRUSEL --- */
-        .carousel-section { width: 100%; margin-bottom: 5rem; position: relative; }
-        .carousel-title { text-align: center; margin-bottom: 2rem; font-size: 2rem; letter-spacing: 2px; color: #fff; }
-        
-        .carousel-container {
-            position: relative; width: 100%; overflow: hidden; border-radius: 12px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8); border: 1px solid rgba(255,255,255,0.05);
+        /* --- NUEVO: CINTA INFINITA (MARQUEE) --- */
+        .marquee-section { width: 100%; margin-bottom: 5rem; position: relative; }
+        .marquee-title { text-align: center; margin-bottom: 2rem; font-size: 1.5rem; letter-spacing: 2px; color: #fff; }
+        .marquee-container {
+            width: 100%; overflow: hidden; white-space: nowrap; position: relative;
+            padding: 1rem 0; border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05);
+            background: rgba(0,0,0,0.2); backdrop-filter: blur(5px);
         }
-        .carousel-track { display: flex; transition: transform 0.5s ease-in-out; }
-        .carousel-slide { min-width: 100%; }
         
-        /* Altura fija para que el carrusel no brinque */
-        .carousel-slide img {
-            width: 100%; height: 500px; object-fit: cover; display: block;
-            filter: grayscale(100%) contrast(1.1); transition: filter 0.5s ease;
+        /* Máscara para que se difumine a los lados */
+        .marquee-container::before, .marquee-container::after {
+            content: ""; position: absolute; top: 0; width: 100px; height: 100%; z-index: 2; pointer-events: none;
         }
-        .carousel-slide:hover img { filter: grayscale(0%) contrast(1); }
+        .marquee-container::before { left: 0; background: linear-gradient(to right, #0c0c0e, transparent); }
+        .marquee-container::after { right: 0; background: linear-gradient(to left, #0c0c0e, transparent); }
 
-        .carousel-btn {
-            position: absolute; top: 50%; transform: translateY(-50%);
-            background: rgba(0,0,0,0.5); color: white; border: none;
-            width: 45px; height: 45px; border-radius: 50%; cursor: pointer;
-            font-size: 1.2rem; z-index: 10; backdrop-filter: blur(5px); transition: background 0.3s;
+        .marquee-track {
+            display: inline-flex; width: fit-content;
+            animation: scroll-marquee 60s linear infinite;
         }
-        .carousel-btn:hover { background: rgba(0,0,0,0.8); }
-        .carousel-btn.prev { left: 15px; }
-        .carousel-btn.next { right: 15px; }
+        /* Pausar al poner el mouse */
+        .marquee-track:hover { animation-play-state: paused; }
+
+        .marquee-item {
+            display: inline-block; width: 220px; height: 140px; margin: 0 10px; flex-shrink: 0;
+            border-radius: 8px; overflow: hidden; cursor: pointer; transition: transform 0.3s;
+        }
+        .marquee-item img {
+            width: 100%; height: 100%; object-fit: cover;
+            filter: grayscale(100%); transition: filter 0.3s, transform 0.3s;
+        }
+        .marquee-item:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        .marquee-item:hover img { filter: grayscale(0%); transform: scale(1.05); }
+
+        @keyframes scroll-marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); } /* Se desliza hasta la mitad porque el contenido está duplicado */
+        }
         
-        /* --- ESTILOS DE LA GALERÍA PRINCIPAL --- */
+        /* --- GALERÍA PRINCIPAL --- */
         .gallery-title { text-align: center; margin-bottom: 3rem; font-size: 2.5rem; letter-spacing: 2px; color: #fff; position: relative; }
         .gallery-title::after { content: ''; display: block; width: 50px; height: 2px; background: #555; margin: 15px auto 0; }
-        
         .grid { display: flex; flex-direction: column; gap: 4rem; margin-bottom: 5rem; align-items: center; }
-        
         .fade-in { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
         .fade-in.visible { opacity: 1; transform: translateY(0); }
-
         .card { 
             width: 100%; background: #000; border-radius: 8px; overflow: hidden; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.5); transition: transform 0.5s ease, box-shadow 0.5s ease;
         }
         .card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0,0,0,0.9); }
-        
         .card img { 
             width: 100%; height: auto; display: block; 
             transition: transform 0.7s ease, filter 0.7s ease; filter: grayscale(100%) contrast(1.1); 
@@ -160,53 +157,105 @@
             <p>La idea de este portafolio nació de una coincidencia. Un día, caminando por el pasillo de mi casa, una vieja foto familiar cayó al suelo justo frente a mí. Al recogerla, me vi de niño bajo un cielo inmenso y espectacular. Esa imagen me movió algo por dentro y desencadenó todo: decidí volver a ese mismo lugar exacto para ver si aún quedaba algún rastro de mi infancia allí. Al llegar y mirar a mi alrededor, me llevé una decepción, pues no quedaba nada. Todo había cambiado irremediablemente, devorado por la ciudad de hoy. Sin embargo, en medio de esa desilusión, levanté la mirada casi por casualidad. Abajo todo era distinto, pero el cielo sobre mí seguía siendo exactamente igual de hermoso que en aquella fotografía.</p>
             <p>Mis imágenes son el resultado de esa experiencia. Son un intento por capturar esa perspectiva de alguien que, inmerso en la cotidianidad, comprendió que por más que el entorno cambie bajo nuestros pies, siempre podemos mirar hacia el cenit y encontrar que esa misma luz sigue ahí, intacta.</p>
         </section>
+    </div>
 
-        <!-- Carrusel Destacados -->
-        <section class="carousel-section fade-in">
-            <h2 class="carousel-title">Destacados</h2>
-            <div class="carousel-container">
-                <button class="carousel-btn prev" id="prevBtn">&#10094;</button>
-                <div class="carousel-track" id="track">
-                    <!-- Puedes cambiar los src de aquí si prefieres otras fotos de portada -->
-                    <div class="carousel-slide"><img src="01FD99A0-4FBE-4B66-B207-AEE208810C25.jpg" alt="Destacado 1"></div>
-                    <div class="carousel-slide"><img src="8EF672E5-F83C-4DAA-A7FB-C8B748182FCD.jpg" alt="Destacado 2"></div>
-                    <div class="carousel-slide"><img src="25-32_page-0008.jpg" alt="Destacado 3"></div>
-                </div>
-                <button class="carousel-btn next" id="nextBtn">&#10095;</button>
+    <!-- CINTA DE FOTOS INFINITA -->
+    <section class="marquee-section fade-in">
+        <h2 class="marquee-title">Índice Visual</h2>
+        <div class="marquee-container">
+            <!-- Para que el loop sea perfecto, las imágenes se ponen DOS VECES -->
+            <div class="marquee-track">
+                <!-- GRUPO 1 -->
+                <a href="#foto1" class="marquee-item"><img src="01FD99A0-4FBE-4B66-B207-AEE208810C25.jpg"></a>
+                <a href="#foto2" class="marquee-item"><img src="15273055-4BC8-41C4-A528-32271F50D23A.jpg"></a>
+                <a href="#foto3" class="marquee-item"><img src="24127499-C285-4C0F-A297-0FE4DC64408E.jpg"></a>
+                <a href="#foto4" class="marquee-item"><img src="3053C05D-1549-459F-9BB6-617CEDEE0307.jpg"></a>
+                <a href="#foto5" class="marquee-item"><img src="3682CB64-6C63-4851-A91E-C50A310D73EB.jpg"></a>
+                <a href="#foto6" class="marquee-item"><img src="41648829-06E1-48FC-A6CF-1CE4588B211F.jpg"></a>
+                <a href="#foto7" class="marquee-item"><img src="45F91B98-E449-4D96-A0C0-8693C2E9C220.jpg"></a>
+                <a href="#foto8" class="marquee-item"><img src="6F4E92AB-DB37-49AD-BC1B-03829FD1E95C.jpg"></a>
+                <a href="#foto9" class="marquee-item"><img src="6F6A197E-2540-46ED-97E2-365C86D99606.jpg"></a>
+                <a href="#foto10" class="marquee-item"><img src="8A5B4F38-D47C-4059-AE6B-F32A57BCBAA8.jpg"></a>
+                <a href="#foto11" class="marquee-item"><img src="8EF672E5-F83C-4DAA-A7FB-C8B748182FCD.jpg"></a>
+                <a href="#foto12" class="marquee-item"><img src="A827DCCC-C7F3-47DA-B052-BC6A6E4B87CD.jpg"></a>
+                <a href="#foto13" class="marquee-item"><img src="ADD52A9A-CEB9-4838-9DD6-EB6D698BE8F0.jpg"></a>
+                <a href="#foto14" class="marquee-item"><img src="B4507248-089F-4A31-B7E1-625C47AFB45B.jpg"></a>
+                <a href="#foto15" class="marquee-item"><img src="CE124D54-39D2-4D98-8E96-06ADF3FEE32A.jpg"></a>
+                <a href="#foto16" class="marquee-item"><img src="CFD15C81-80FC-4519-8058-E7C510F24AFD.jpg"></a>
+                <a href="#foto17" class="marquee-item"><img src="E17332B7-99BF-4923-8039-34D75306E454.jpg"></a>
+                <a href="#foto18" class="marquee-item"><img src="E2E376A3-62C2-4CEF-A7B4-5206C45CB3D2.jpg"></a>
+                <a href="#foto19" class="marquee-item"><img src="25-32_page-0001.jpg"></a>
+                <a href="#foto20" class="marquee-item"><img src="25-32_page-0002.jpg"></a>
+                <a href="#foto21" class="marquee-item"><img src="25-32_page-0003.jpg"></a>
+                <a href="#foto22" class="marquee-item"><img src="25-32_page-0004.jpg"></a>
+                <a href="#foto23" class="marquee-item"><img src="25-32_page-0005.jpg"></a>
+                <a href="#foto24" class="marquee-item"><img src="25-32_page-0006.jpg"></a>
+                <a href="#foto25" class="marquee-item"><img src="25-32_page-0007.jpg"></a>
+                <a href="#foto26" class="marquee-item"><img src="25-32_page-0008.jpg"></a>
+                
+                <!-- GRUPO 2 (Duplicado para el loop infinito) -->
+                <a href="#foto1" class="marquee-item"><img src="01FD99A0-4FBE-4B66-B207-AEE208810C25.jpg"></a>
+                <a href="#foto2" class="marquee-item"><img src="15273055-4BC8-41C4-A528-32271F50D23A.jpg"></a>
+                <a href="#foto3" class="marquee-item"><img src="24127499-C285-4C0F-A297-0FE4DC64408E.jpg"></a>
+                <a href="#foto4" class="marquee-item"><img src="3053C05D-1549-459F-9BB6-617CEDEE0307.jpg"></a>
+                <a href="#foto5" class="marquee-item"><img src="3682CB64-6C63-4851-A91E-C50A310D73EB.jpg"></a>
+                <a href="#foto6" class="marquee-item"><img src="41648829-06E1-48FC-A6CF-1CE4588B211F.jpg"></a>
+                <a href="#foto7" class="marquee-item"><img src="45F91B98-E449-4D96-A0C0-8693C2E9C220.jpg"></a>
+                <a href="#foto8" class="marquee-item"><img src="6F4E92AB-DB37-49AD-BC1B-03829FD1E95C.jpg"></a>
+                <a href="#foto9" class="marquee-item"><img src="6F6A197E-2540-46ED-97E2-365C86D99606.jpg"></a>
+                <a href="#foto10" class="marquee-item"><img src="8A5B4F38-D47C-4059-AE6B-F32A57BCBAA8.jpg"></a>
+                <a href="#foto11" class="marquee-item"><img src="8EF672E5-F83C-4DAA-A7FB-C8B748182FCD.jpg"></a>
+                <a href="#foto12" class="marquee-item"><img src="A827DCCC-C7F3-47DA-B052-BC6A6E4B87CD.jpg"></a>
+                <a href="#foto13" class="marquee-item"><img src="ADD52A9A-CEB9-4838-9DD6-EB6D698BE8F0.jpg"></a>
+                <a href="#foto14" class="marquee-item"><img src="B4507248-089F-4A31-B7E1-625C47AFB45B.jpg"></a>
+                <a href="#foto15" class="marquee-item"><img src="CE124D54-39D2-4D98-8E96-06ADF3FEE32A.jpg"></a>
+                <a href="#foto16" class="marquee-item"><img src="CFD15C81-80FC-4519-8058-E7C510F24AFD.jpg"></a>
+                <a href="#foto17" class="marquee-item"><img src="E17332B7-99BF-4923-8039-34D75306E454.jpg"></a>
+                <a href="#foto18" class="marquee-item"><img src="E2E376A3-62C2-4CEF-A7B4-5206C45CB3D2.jpg"></a>
+                <a href="#foto19" class="marquee-item"><img src="25-32_page-0001.jpg"></a>
+                <a href="#foto20" class="marquee-item"><img src="25-32_page-0002.jpg"></a>
+                <a href="#foto21" class="marquee-item"><img src="25-32_page-0003.jpg"></a>
+                <a href="#foto22" class="marquee-item"><img src="25-32_page-0004.jpg"></a>
+                <a href="#foto23" class="marquee-item"><img src="25-32_page-0005.jpg"></a>
+                <a href="#foto24" class="marquee-item"><img src="25-32_page-0006.jpg"></a>
+                <a href="#foto25" class="marquee-item"><img src="25-32_page-0007.jpg"></a>
+                <a href="#foto26" class="marquee-item"><img src="25-32_page-0008.jpg"></a>
             </div>
-        </section>
+        </div>
+    </section>
 
+    <div class="container">
         <!-- Galería Principal -->
         <h2 class="gallery-title fade-in">Colección Completa</h2>
         <section class="grid">
-            <div class="card fade-in"><img src="01FD99A0-4FBE-4B66-B207-AEE208810C25.jpg" alt="Fotografía"></div>
-            <div class="card fade-in"><img src="15273055-4BC8-41C4-A528-32271F50D23A.jpg" alt="Fotografía"></div>
-            <div class="card fade-in"><img src="24127499-C285-4C0F-A297-0FE4DC64408E.jpg" alt="Fotografía"></div>
-            <div class="card fade-in"><img src="3053C05D-1549-459F-9BB6-617CEDEE0307.jpg" alt="Fotografía"></div>
-            <div class="card fade-in"><img src="3682CB64-6C63-4851-A91E-C50A310D73EB.jpg" alt="Fotografía"></div>
-            <div class="card fade-in"><img src="41648829-06E1-48FC-A6CF-1CE4588B211F.jpg" alt="Fotografía"></div>
-            <div class="card fade-in"><img src="45F91B98-E449-4D96-A0C0-8693C2E9C220.jpg" alt="Fotografía"></div>
-            <div class="card fade-in"><img src="6F4E92AB-DB37-49AD-BC1B-03829FD1E95C.jpg" alt="Fotografía"></div>
-            <div class="card fade-in"><img src="6F6A197E-2540-46ED-97E2-365C86D99606.jpg" alt="Fotografía"></div>
+            <div class="card fade-in" id="foto1"><img src="01FD99A0-4FBE-4B66-B207-AEE208810C25.jpg" alt="Fotografía"></div>
+            <div class="card fade-in" id="foto2"><img src="15273055-4BC8-41C4-A528-32271F50D23A.jpg" alt="Fotografía"></div>
+            <div class="card fade-in" id="foto3"><img src="24127499-C285-4C0F-A297-0FE4DC64408E.jpg" alt="Fotografía"></div>
+            <div class="card fade-in" id="foto4"><img src="3053C05D-1549-459F-9BB6-617CEDEE0307.jpg" alt="Fotografía"></div>
+            <div class="card fade-in" id="foto5"><img src="3682CB64-6C63-4851-A91E-C50A310D73EB.jpg" alt="Fotografía"></div>
+            <div class="card fade-in" id="foto6"><img src="41648829-06E1-48FC-A6CF-1CE4588B211F.jpg" alt="Fotografía"></div>
+            <div class="card fade-in" id="foto7"><img src="45F91B98-E449-4D96-A0C0-8693C2E9C220.jpg" alt="Fotografía"></div>
+            <div class="card fade-in" id="foto8"><img src="6F4E92AB-DB37-49AD-BC1B-03829FD1E95C.jpg" alt="Fotografía"></div>
+            <div class="card fade-in" id="foto9"><img src="6F6A197E-2540-46ED-97E2-365C86D99606.jpg" alt="Fotografía"></div>
             
-            <div class="card fade-in"><img src="8A5B4F38-D47C-4059-AE6B-F32A57BCBAA8.jpg" alt="Fotografía"></div>
-            <div class="card fade-in"><img src="8EF672E5-F83C-4DAA-A7FB-C8B748182FCD.jpg" alt="Fotografía"></div>
-            <div class="card fade-in"><img src="A827DCCC-C7F3-47DA-B052-BC6A6E4B87CD.jpg" alt="Fotografía"></div>
-            <div class="card fade-in"><img src="ADD52A9A-CEB9-4838-9DD6-EB6D698BE8F0.jpg" alt="Fotografía"></div>
-            <div class="card fade-in"><img src="B4507248-089F-4A31-B7E1-625C47AFB45B.jpg" alt="Fotografía"></div>
-            <div class="card fade-in"><img src="CE124D54-39D2-4D98-8E96-06ADF3FEE32A.jpg" alt="Fotografía"></div>
-            <div class="card fade-in"><img src="CFD15C81-80FC-4519-8058-E7C510F24AFD.jpg" alt="Fotografía"></div>
-            <div class="card fade-in"><img src="E17332B7-99BF-4923-8039-34D75306E454.jpg" alt="Fotografía"></div>
-            <div class="card fade-in"><img src="E2E376A3-62C2-4CEF-A7B4-5206C45CB3D2.jpg" alt="Fotografía"></div>
+            <div class="card fade-in" id="foto10"><img src="8A5B4F38-D47C-4059-AE6B-F32A57BCBAA8.jpg" alt="Fotografía"></div>
+            <div class="card fade-in" id="foto11"><img src="8EF672E5-F83C-4DAA-A7FB-C8B748182FCD.jpg" alt="Fotografía"></div>
+            <div class="card fade-in" id="foto12"><img src="A827DCCC-C7F3-47DA-B052-BC6A6E4B87CD.jpg" alt="Fotografía"></div>
+            <div class="card fade-in" id="foto13"><img src="ADD52A9A-CEB9-4838-9DD6-EB6D698BE8F0.jpg" alt="Fotografía"></div>
+            <div class="card fade-in" id="foto14"><img src="B4507248-089F-4A31-B7E1-625C47AFB45B.jpg" alt="Fotografía"></div>
+            <div class="card fade-in" id="foto15"><img src="CE124D54-39D2-4D98-8E96-06ADF3FEE32A.jpg" alt="Fotografía"></div>
+            <div class="card fade-in" id="foto16"><img src="CFD15C81-80FC-4519-8058-E7C510F24AFD.jpg" alt="Fotografía"></div>
+            <div class="card fade-in" id="foto17"><img src="E17332B7-99BF-4923-8039-34D75306E454.jpg" alt="Fotografía"></div>
+            <div class="card fade-in" id="foto18"><img src="E2E376A3-62C2-4CEF-A7B4-5206C45CB3D2.jpg" alt="Fotografía"></div>
             
-            <div class="card fade-in"><img src="25-32_page-0001.jpg" alt="Fotografía"></div>
-            <div class="card fade-in"><img src="25-32_page-0002.jpg" alt="Fotografía"></div>
-            <div class="card fade-in"><img src="25-32_page-0003.jpg" alt="Fotografía"></div>
-            <div class="card fade-in"><img src="25-32_page-0004.jpg" alt="Fotografía"></div>
-            <div class="card fade-in"><img src="25-32_page-0005.jpg" alt="Fotografía"></div>
-            <div class="card fade-in"><img src="25-32_page-0006.jpg" alt="Fotografía"></div>
-            <div class="card fade-in"><img src="25-32_page-0007.jpg" alt="Fotografía"></div>
-            <div class="card fade-in"><img src="25-32_page-0008.jpg" alt="Fotografía"></div>
+            <div class="card fade-in" id="foto19"><img src="25-32_page-0001.jpg" alt="Fotografía"></div>
+            <div class="card fade-in" id="foto20"><img src="25-32_page-0002.jpg" alt="Fotografía"></div>
+            <div class="card fade-in" id="foto21"><img src="25-32_page-0003.jpg" alt="Fotografía"></div>
+            <div class="card fade-in" id="foto22"><img src="25-32_page-0004.jpg" alt="Fotografía"></div>
+            <div class="card fade-in" id="foto23"><img src="25-32_page-0005.jpg" alt="Fotografía"></div>
+            <div class="card fade-in" id="foto24"><img src="25-32_page-0006.jpg" alt="Fotografía"></div>
+            <div class="card fade-in" id="foto25"><img src="25-32_page-0007.jpg" alt="Fotografía"></div>
+            <div class="card fade-in" id="foto26"><img src="25-32_page-0008.jpg" alt="Fotografía"></div>
         </section>
     </div>
 
@@ -218,25 +267,7 @@
     <button id="btnTop" title="Volver arriba">↑</button>
 
     <script>
-        // --- SCRIPT DEL CARRUSEL ---
-        const track = document.getElementById('track');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const slides = document.querySelectorAll('.carousel-slide');
-        let currentIndex = 0;
-        const totalSlides = slides.length;
-
-        nextBtn.addEventListener('click', () => {
-            currentIndex = (currentIndex + 1) % totalSlides;
-            track.style.transform = `translateX(-${currentIndex * 100}%)`;
-        });
-
-        prevBtn.addEventListener('click', () => {
-            currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
-            track.style.transform = `translateX(-${currentIndex * 100}%)`;
-        });
-
-        // --- SCRIPT DE ANIMACIONES (Fade-in y Volver arriba) ---
+        // SCRIPT DE ANIMACIONES (Fade-in y Volver arriba)
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
