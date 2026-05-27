@@ -23,6 +23,7 @@
         .aurora-bg {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             z-index: -1; background-color: #0c0c0e; overflow: hidden;
+            transform: translateZ(0); /* Fuerza aceleración por hardware */
             will-change: transform;
         }
         .blob {
@@ -65,13 +66,13 @@
         .bio-section h2 { margin-bottom: 1.5rem; font-size: 2rem; color: #fff; text-align: center;}
         .bio-section p { font-weight: 300; font-size: 1.05rem; color: #bbb; text-align: justify; margin-bottom: 1rem; }
         
-        /* --- NUEVA GEOMETRÍA: CARRUSEL EN ARCO (EFECTO SONRISA) --- */
+        /* --- GEOMETRÍA: CARRUSEL EN ARCO --- */
         .marquee-section { width: 100%; margin-bottom: 6rem; position: relative; }
         .marquee-title { text-align: center; margin-bottom: 2rem; font-size: 1.5rem; letter-spacing: 2px; color: #fff; }
         
         .marquee-container {
             width: 100%; overflow: hidden; white-space: nowrap; position: relative;
-            padding: 5rem 0; /* Espacio vertical para que la curva tenga donde subir */
+            padding: 5rem 0; 
             background: rgba(0,0,0,0.2); backdrop-filter: blur(5px);
             border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05);
         }
@@ -84,24 +85,21 @@
         .marquee-track:hover { animation-play-state: paused; }
 
         .marquee-item {
-            /* Dimensiones más verticales parecidas a tu imagen de referencia */
             display: inline-block; width: 220px; height: 300px; margin: 0 15px; flex-shrink: 0;
             border-radius: 16px; overflow: hidden; cursor: pointer;
             box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-            /* El transform se inyecta por JS, así que no le ponemos transición aquí para evitar lag */
             will-change: transform;
         }
         
         .marquee-item img {
             width: 100%; height: 100%; object-fit: cover;
-            /* El efecto hover lo hace la imagen por dentro */
             transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.4s ease;
-            filter: brightness(0.85); /* Un poquito oscuro por defecto */
+            filter: brightness(0.85); 
         }
         
         .marquee-item:hover img { 
             transform: scale(1.1); 
-            filter: brightness(1.1); /* Se ilumina al pasar el mouse */
+            filter: brightness(1.1); 
         }
 
         @keyframes scroll-marquee {
@@ -109,7 +107,7 @@
             100% { transform: translateX(-50%); } 
         }
         
-        /* --- GALERÍA PRINCIPAL (SIN FILTROS PARA CARGA RÁPIDA) --- */
+        /* --- GALERÍA PRINCIPAL --- */
         .gallery-title { text-align: center; margin-bottom: 3rem; font-size: 2.5rem; letter-spacing: 2px; color: #fff; position: relative; }
         .gallery-title::after { content: ''; display: block; width: 50px; height: 2px; background: #555; margin: 15px auto 0; }
         .grid { display: flex; flex-direction: column; gap: 4rem; margin-bottom: 5rem; align-items: center; }
@@ -122,7 +120,7 @@
             will-change: transform;
         }
         .card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.8); }
-        .card img { width: 100%; height: auto; display: block; } /* Limpio y rápido */
+        .card img { width: 100%; height: auto; display: block; } 
 
         /* BOTÓN VOLVER ARRIBA */
         #btnTop {
@@ -140,7 +138,6 @@
 </head>
 <body>
 
-    <!-- Fondo Aurora Optimizado -->
     <div class="aurora-bg">
         <div class="blob blob1"></div>
         <div class="blob blob2"></div>
@@ -153,9 +150,8 @@
     </header>
 
     <div class="container">
-        <!-- Sección de Biografía -->
         <section class="bio-section fade-in">
-            <img src="7EC58761-F8E0-4D16-9789-39301297D48F.jpg" alt="Foto de Luver López" class="profile-pic">
+            <img src="7EC58761-F8E0-4D16-9789-39301297D48F.jpg" alt="Foto de Luver López" class="profile-pic" decoding="async">
             <h2>Sobre mí</h2>
             <p>Entre el ritmo acelerado de la ciudad y la prisa constante de la vida adulta, me acostumbré a caminar mirando siempre hacia el frente o hacia el asfalto. Mi entorno se había reducido a la rutina y a las responsabilidades inmediatas.</p>
             <p>La idea de este portafolio nació de una coincidencia. Un día, caminando por el pasillo de mi casa, una vieja foto familiar cayó al suelo justo frente a mí. Al recogerla, me vi de niño bajo un cielo inmenso y espectacular. Esa imagen me movió algo por dentro y desencadenó todo: decidí volver a ese mismo lugar exacto para ver si aún quedaba algún rastro de mi infancia allí. Al llegar y mirar a mi alrededor, me llevé una decepción, pues no quedaba nada. Todo había cambiado irremediablemente, devorado por la ciudad de hoy. Sin embargo, en medio de esa desilusión, levanté la mirada casi por casualidad. Abajo todo era distinto, pero el cielo sobre mí seguía siendo exactamente igual de hermoso que en aquella fotografía.</p>
@@ -163,102 +159,98 @@
         </section>
     </div>
 
-    <!-- CINTA DE FOTOS EN ARCO 3D (Ref. U-Shape) -->
     <section class="marquee-section fade-in">
         <h2 class="marquee-title">Índice Visual</h2>
         <div class="marquee-container">
             <div class="marquee-track">
-                <!-- GRUPO 1 -->
-                <a href="#foto1" class="marquee-item"><img src="01FD99A0-4FBE-4B66-B207-AEE208810C25.jpg"></a>
-                <a href="#foto2" class="marquee-item"><img src="15273055-4BC8-41C4-A528-32271F50D23A.jpg"></a>
-                <a href="#foto3" class="marquee-item"><img src="24127499-C285-4C0F-A297-0FE4DC64408E.jpg"></a>
-                <a href="#foto4" class="marquee-item"><img src="3053C05D-1549-459F-9BB6-617CEDEE0307.jpg"></a>
-                <a href="#foto5" class="marquee-item"><img src="3682CB64-6C63-4851-A91E-C50A310D73EB.jpg"></a>
-                <a href="#foto6" class="marquee-item"><img src="41648829-06E1-48FC-A6CF-1CE4588B211F.jpg"></a>
-                <a href="#foto7" class="marquee-item"><img src="45F91B98-E449-4D96-A0C0-8693C2E9C220.jpg"></a>
-                <a href="#foto8" class="marquee-item"><img src="6F4E92AB-DB37-49AD-BC1B-03829FD1E95C.jpg"></a>
-                <a href="#foto9" class="marquee-item"><img src="6F6A197E-2540-46ED-97E2-365C86D99606.jpg"></a>
-                <a href="#foto10" class="marquee-item"><img src="8A5B4F38-D47C-4059-AE6B-F32A57BCBAA8.jpg"></a>
-                <a href="#foto11" class="marquee-item"><img src="8EF672E5-F83C-4DAA-A7FB-C8B748182FCD.jpg"></a>
-                <a href="#foto12" class="marquee-item"><img src="A827DCCC-C7F3-47DA-B052-BC6A6E4B87CD.jpg"></a>
-                <a href="#foto13" class="marquee-item"><img src="ADD52A9A-CEB9-4838-9DD6-EB6D698BE8F0.jpg"></a>
-                <a href="#foto14" class="marquee-item"><img src="B4507248-089F-4A31-B7E1-625C47AFB45B.jpg"></a>
-                <a href="#foto15" class="marquee-item"><img src="CE124D54-39D2-4D98-8E96-06ADF3FEE32A.jpg"></a>
-                <a href="#foto16" class="marquee-item"><img src="CFD15C81-80FC-4519-8058-E7C510F24AFD.jpg"></a>
-                <a href="#foto17" class="marquee-item"><img src="E17332B7-99BF-4923-8039-34D75306E454.jpg"></a>
-                <a href="#foto18" class="marquee-item"><img src="E2E376A3-62C2-4CEF-A7B4-5206C45CB3D2.jpg"></a>
-                <a href="#foto19" class="marquee-item"><img src="25-32_page-0001.jpg"></a>
-                <a href="#foto20" class="marquee-item"><img src="25-32_page-0002.jpg"></a>
-                <a href="#foto21" class="marquee-item"><img src="25-32_page-0003.jpg"></a>
-                <a href="#foto22" class="marquee-item"><img src="25-32_page-0004.jpg"></a>
-                <a href="#foto23" class="marquee-item"><img src="25-32_page-0005.jpg"></a>
-                <a href="#foto24" class="marquee-item"><img src="25-32_page-0006.jpg"></a>
-                <a href="#foto25" class="marquee-item"><img src="25-32_page-0007.jpg"></a>
-                <a href="#foto26" class="marquee-item"><img src="25-32_page-0008.jpg"></a>
+                <a href="#foto1" class="marquee-item"><img src="01FD99A0-4FBE-4B66-B207-AEE208810C25.jpg" decoding="async"></a>
+                <a href="#foto2" class="marquee-item"><img src="15273055-4BC8-41C4-A528-32271F50D23A.jpg" decoding="async"></a>
+                <a href="#foto3" class="marquee-item"><img src="24127499-C285-4C0F-A297-0FE4DC64408E.jpg" decoding="async"></a>
+                <a href="#foto4" class="marquee-item"><img src="3053C05D-1549-459F-9BB6-617CEDEE0307.jpg" decoding="async"></a>
+                <a href="#foto5" class="marquee-item"><img src="3682CB64-6C63-4851-A91E-C50A310D73EB.jpg" decoding="async"></a>
+                <a href="#foto6" class="marquee-item"><img src="41648829-06E1-48FC-A6CF-1CE4588B211F.jpg" decoding="async"></a>
+                <a href="#foto7" class="marquee-item"><img src="45F91B98-E449-4D96-A0C0-8693C2E9C220.jpg" decoding="async"></a>
+                <a href="#foto8" class="marquee-item"><img src="6F4E92AB-DB37-49AD-BC1B-03829FD1E95C.jpg" decoding="async"></a>
+                <a href="#foto9" class="marquee-item"><img src="6F6A197E-2540-46ED-97E2-365C86D99606.jpg" decoding="async"></a>
+                <a href="#foto10" class="marquee-item"><img src="8A5B4F38-D47C-4059-AE6B-F32A57BCBAA8.jpg" decoding="async"></a>
+                <a href="#foto11" class="marquee-item"><img src="8EF672E5-F83C-4DAA-A7FB-C8B748182FCD.jpg" decoding="async"></a>
+                <a href="#foto12" class="marquee-item"><img src="A827DCCC-C7F3-47DA-B052-BC6A6E4B87CD.jpg" decoding="async"></a>
+                <a href="#foto13" class="marquee-item"><img src="ADD52A9A-CEB9-4838-9DD6-EB6D698BE8F0.jpg" decoding="async"></a>
+                <a href="#foto14" class="marquee-item"><img src="B4507248-089F-4A31-B7E1-625C47AFB45B.jpg" decoding="async"></a>
+                <a href="#foto15" class="marquee-item"><img src="CE124D54-39D2-4D98-8E96-06ADF3FEE32A.jpg" decoding="async"></a>
+                <a href="#foto16" class="marquee-item"><img src="CFD15C81-80FC-4519-8058-E7C510F24AFD.jpg" decoding="async"></a>
+                <a href="#foto17" class="marquee-item"><img src="E17332B7-99BF-4923-8039-34D75306E454.jpg" decoding="async"></a>
+                <a href="#foto18" class="marquee-item"><img src="E2E376A3-62C2-4CEF-A7B4-5206C45CB3D2.jpg" decoding="async"></a>
+                <a href="#foto19" class="marquee-item"><img src="25-32_page-0001.jpg" decoding="async"></a>
+                <a href="#foto20" class="marquee-item"><img src="25-32_page-0002.jpg" decoding="async"></a>
+                <a href="#foto21" class="marquee-item"><img src="25-32_page-0003.jpg" decoding="async"></a>
+                <a href="#foto22" class="marquee-item"><img src="25-32_page-0004.jpg" decoding="async"></a>
+                <a href="#foto23" class="marquee-item"><img src="25-32_page-0005.jpg" decoding="async"></a>
+                <a href="#foto24" class="marquee-item"><img src="25-32_page-0006.jpg" decoding="async"></a>
+                <a href="#foto25" class="marquee-item"><img src="25-32_page-0007.jpg" decoding="async"></a>
+                <a href="#foto26" class="marquee-item"><img src="25-32_page-0008.jpg" decoding="async"></a>
                 
-                <!-- GRUPO 2 (Duplicado para la cinta infinita) -->
-                <a href="#foto1" class="marquee-item"><img src="01FD99A0-4FBE-4B66-B207-AEE208810C25.jpg"></a>
-                <a href="#foto2" class="marquee-item"><img src="15273055-4BC8-41C4-A528-32271F50D23A.jpg"></a>
-                <a href="#foto3" class="marquee-item"><img src="24127499-C285-4C0F-A297-0FE4DC64408E.jpg"></a>
-                <a href="#foto4" class="marquee-item"><img src="3053C05D-1549-459F-9BB6-617CEDEE0307.jpg"></a>
-                <a href="#foto5" class="marquee-item"><img src="3682CB64-6C63-4851-A91E-C50A310D73EB.jpg"></a>
-                <a href="#foto6" class="marquee-item"><img src="41648829-06E1-48FC-A6CF-1CE4588B211F.jpg"></a>
-                <a href="#foto7" class="marquee-item"><img src="45F91B98-E449-4D96-A0C0-8693C2E9C220.jpg"></a>
-                <a href="#foto8" class="marquee-item"><img src="6F4E92AB-DB37-49AD-BC1B-03829FD1E95C.jpg"></a>
-                <a href="#foto9" class="marquee-item"><img src="6F6A197E-2540-46ED-97E2-365C86D99606.jpg"></a>
-                <a href="#foto10" class="marquee-item"><img src="8A5B4F38-D47C-4059-AE6B-F32A57BCBAA8.jpg"></a>
-                <a href="#foto11" class="marquee-item"><img src="8EF672E5-F83C-4DAA-A7FB-C8B748182FCD.jpg"></a>
-                <a href="#foto12" class="marquee-item"><img src="A827DCCC-C7F3-47DA-B052-BC6A6E4B87CD.jpg"></a>
-                <a href="#foto13" class="marquee-item"><img src="ADD52A9A-CEB9-4838-9DD6-EB6D698BE8F0.jpg"></a>
-                <a href="#foto14" class="marquee-item"><img src="B4507248-089F-4A31-B7E1-625C47AFB45B.jpg"></a>
-                <a href="#foto15" class="marquee-item"><img src="CE124D54-39D2-4D98-8E96-06ADF3FEE32A.jpg"></a>
-                <a href="#foto16" class="marquee-item"><img src="CFD15C81-80FC-4519-8058-E7C510F24AFD.jpg"></a>
-                <a href="#foto17" class="marquee-item"><img src="E17332B7-99BF-4923-8039-34D75306E454.jpg"></a>
-                <a href="#foto18" class="marquee-item"><img src="E2E376A3-62C2-4CEF-A7B4-5206C45CB3D2.jpg"></a>
-                <a href="#foto19" class="marquee-item"><img src="25-32_page-0001.jpg"></a>
-                <a href="#foto20" class="marquee-item"><img src="25-32_page-0002.jpg"></a>
-                <a href="#foto21" class="marquee-item"><img src="25-32_page-0003.jpg"></a>
-                <a href="#foto22" class="marquee-item"><img src="25-32_page-0004.jpg"></a>
-                <a href="#foto23" class="marquee-item"><img src="25-32_page-0005.jpg"></a>
-                <a href="#foto24" class="marquee-item"><img src="25-32_page-0006.jpg"></a>
-                <a href="#foto25" class="marquee-item"><img src="25-32_page-0007.jpg"></a>
-                <a href="#foto26" class="marquee-item"><img src="25-32_page-0008.jpg"></a>
+                <a href="#foto1" class="marquee-item"><img src="01FD99A0-4FBE-4B66-B207-AEE208810C25.jpg" loading="lazy" decoding="async"></a>
+                <a href="#foto2" class="marquee-item"><img src="15273055-4BC8-41C4-A528-32271F50D23A.jpg" loading="lazy" decoding="async"></a>
+                <a href="#foto3" class="marquee-item"><img src="24127499-C285-4C0F-A297-0FE4DC64408E.jpg" loading="lazy" decoding="async"></a>
+                <a href="#foto4" class="marquee-item"><img src="3053C05D-1549-459F-9BB6-617CEDEE0307.jpg" loading="lazy" decoding="async"></a>
+                <a href="#foto5" class="marquee-item"><img src="3682CB64-6C63-4851-A91E-C50A310D73EB.jpg" loading="lazy" decoding="async"></a>
+                <a href="#foto6" class="marquee-item"><img src="41648829-06E1-48FC-A6CF-1CE4588B211F.jpg" loading="lazy" decoding="async"></a>
+                <a href="#foto7" class="marquee-item"><img src="45F91B98-E449-4D96-A0C0-8693C2E9C220.jpg" loading="lazy" decoding="async"></a>
+                <a href="#foto8" class="marquee-item"><img src="6F4E92AB-DB37-49AD-BC1B-03829FD1E95C.jpg" loading="lazy" decoding="async"></a>
+                <a href="#foto9" class="marquee-item"><img src="6F6A197E-2540-46ED-97E2-365C86D99606.jpg" loading="lazy" decoding="async"></a>
+                <a href="#foto10" class="marquee-item"><img src="8A5B4F38-D47C-4059-AE6B-F32A57BCBAA8.jpg" loading="lazy" decoding="async"></a>
+                <a href="#foto11" class="marquee-item"><img src="8EF672E5-F83C-4DAA-A7FB-C8B748182FCD.jpg" loading="lazy" decoding="async"></a>
+                <a href="#foto12" class="marquee-item"><img src="A827DCCC-C7F3-47DA-B052-BC6A6E4B87CD.jpg" loading="lazy" decoding="async"></a>
+                <a href="#foto13" class="marquee-item"><img src="ADD52A9A-CEB9-4838-9DD6-EB6D698BE8F0.jpg" loading="lazy" decoding="async"></a>
+                <a href="#foto14" class="marquee-item"><img src="B4507248-089F-4A31-B7E1-625C47AFB45B.jpg" loading="lazy" decoding="async"></a>
+                <a href="#foto15" class="marquee-item"><img src="CE124D54-39D2-4D98-8E96-06ADF3FEE32A.jpg" loading="lazy" decoding="async"></a>
+                <a href="#foto16" class="marquee-item"><img src="CFD15C81-80FC-4519-8058-E7C510F24AFD.jpg" loading="lazy" decoding="async"></a>
+                <a href="#foto17" class="marquee-item"><img src="E17332B7-99BF-4923-8039-34D75306E454.jpg" loading="lazy" decoding="async"></a>
+                <a href="#foto18" class="marquee-item"><img src="E2E376A3-62C2-4CEF-A7B4-5206C45CB3D2.jpg" loading="lazy" decoding="async"></a>
+                <a href="#foto19" class="marquee-item"><img src="25-32_page-0001.jpg" loading="lazy" decoding="async"></a>
+                <a href="#foto20" class="marquee-item"><img src="25-32_page-0002.jpg" loading="lazy" decoding="async"></a>
+                <a href="#foto21" class="marquee-item"><img src="25-32_page-0003.jpg" loading="lazy" decoding="async"></a>
+                <a href="#foto22" class="marquee-item"><img src="25-32_page-0004.jpg" loading="lazy" decoding="async"></a>
+                <a href="#foto23" class="marquee-item"><img src="25-32_page-0005.jpg" loading="lazy" decoding="async"></a>
+                <a href="#foto24" class="marquee-item"><img src="25-32_page-0006.jpg" loading="lazy" decoding="async"></a>
+                <a href="#foto25" class="marquee-item"><img src="25-32_page-0007.jpg" loading="lazy" decoding="async"></a>
+                <a href="#foto26" class="marquee-item"><img src="25-32_page-0008.jpg" loading="lazy" decoding="async"></a>
             </div>
         </div>
     </section>
 
     <div class="container">
-        <!-- Galería Principal -->
         <h2 class="gallery-title fade-in">Colección Completa</h2>
         <section class="grid">
-            <div class="card fade-in" id="foto1"><img src="01FD99A0-4FBE-4B66-B207-AEE208810C25.jpg" alt="Fotografía"></div>
-            <div class="card fade-in" id="foto2"><img src="15273055-4BC8-41C4-A528-32271F50D23A.jpg" alt="Fotografía"></div>
-            <div class="card fade-in" id="foto3"><img src="24127499-C285-4C0F-A297-0FE4DC64408E.jpg" alt="Fotografía"></div>
-            <div class="card fade-in" id="foto4"><img src="3053C05D-1549-459F-9BB6-617CEDEE0307.jpg" alt="Fotografía"></div>
-            <div class="card fade-in" id="foto5"><img src="3682CB64-6C63-4851-A91E-C50A310D73EB.jpg" alt="Fotografía"></div>
-            <div class="card fade-in" id="foto6"><img src="41648829-06E1-48FC-A6CF-1CE4588B211F.jpg" alt="Fotografía"></div>
-            <div class="card fade-in" id="foto7"><img src="45F91B98-E449-4D96-A0C0-8693C2E9C220.jpg" alt="Fotografía"></div>
-            <div class="card fade-in" id="foto8"><img src="6F4E92AB-DB37-49AD-BC1B-03829FD1E95C.jpg" alt="Fotografía"></div>
-            <div class="card fade-in" id="foto9"><img src="6F6A197E-2540-46ED-97E2-365C86D99606.jpg" alt="Fotografía"></div>
+            <div class="card fade-in" id="foto1"><img src="01FD99A0-4FBE-4B66-B207-AEE208810C25.jpg" alt="Fotografía" loading="lazy" decoding="async"></div>
+            <div class="card fade-in" id="foto2"><img src="15273055-4BC8-41C4-A528-32271F50D23A.jpg" alt="Fotografía" loading="lazy" decoding="async"></div>
+            <div class="card fade-in" id="foto3"><img src="24127499-C285-4C0F-A297-0FE4DC64408E.jpg" alt="Fotografía" loading="lazy" decoding="async"></div>
+            <div class="card fade-in" id="foto4"><img src="3053C05D-1549-459F-9BB6-617CEDEE0307.jpg" alt="Fotografía" loading="lazy" decoding="async"></div>
+            <div class="card fade-in" id="foto5"><img src="3682CB64-6C63-4851-A91E-C50A310D73EB.jpg" alt="Fotografía" loading="lazy" decoding="async"></div>
+            <div class="card fade-in" id="foto6"><img src="41648829-06E1-48FC-A6CF-1CE4588B211F.jpg" alt="Fotografía" loading="lazy" decoding="async"></div>
+            <div class="card fade-in" id="foto7"><img src="45F91B98-E449-4D96-A0C0-8693C2E9C220.jpg" alt="Fotografía" loading="lazy" decoding="async"></div>
+            <div class="card fade-in" id="foto8"><img src="6F4E92AB-DB37-49AD-BC1B-03829FD1E95C.jpg" alt="Fotografía" loading="lazy" decoding="async"></div>
+            <div class="card fade-in" id="foto9"><img src="6F6A197E-2540-46ED-97E2-365C86D99606.jpg" alt="Fotografía" loading="lazy" decoding="async"></div>
             
-            <div class="card fade-in" id="foto10"><img src="8A5B4F38-D47C-4059-AE6B-F32A57BCBAA8.jpg" alt="Fotografía"></div>
-            <div class="card fade-in" id="foto11"><img src="8EF672E5-F83C-4DAA-A7FB-C8B748182FCD.jpg" alt="Fotografía"></div>
-            <div class="card fade-in" id="foto12"><img src="A827DCCC-C7F3-47DA-B052-BC6A6E4B87CD.jpg" alt="Fotografía"></div>
-            <div class="card fade-in" id="foto13"><img src="ADD52A9A-CEB9-4838-9DD6-EB6D698BE8F0.jpg" alt="Fotografía"></div>
-            <div class="card fade-in" id="foto14"><img src="B4507248-089F-4A31-B7E1-625C47AFB45B.jpg" alt="Fotografía"></div>
-            <div class="card fade-in" id="foto15"><img src="CE124D54-39D2-4D98-8E96-06ADF3FEE32A.jpg" alt="Fotografía"></div>
-            <div class="card fade-in" id="foto16"><img src="CFD15C81-80FC-4519-8058-E7C510F24AFD.jpg" alt="Fotografía"></div>
-            <div class="card fade-in" id="foto17"><img src="E17332B7-99BF-4923-8039-34D75306E454.jpg" alt="Fotografía"></div>
-            <div class="card fade-in" id="foto18"><img src="E2E376A3-62C2-4CEF-A7B4-5206C45CB3D2.jpg" alt="Fotografía"></div>
+            <div class="card fade-in" id="foto10"><img src="8A5B4F38-D47C-4059-AE6B-F32A57BCBAA8.jpg" alt="Fotografía" loading="lazy" decoding="async"></div>
+            <div class="card fade-in" id="foto11"><img src="8EF672E5-F83C-4DAA-A7FB-C8B748182FCD.jpg" alt="Fotografía" loading="lazy" decoding="async"></div>
+            <div class="card fade-in" id="foto12"><img src="A827DCCC-C7F3-47DA-B052-BC6A6E4B87CD.jpg" alt="Fotografía" loading="lazy" decoding="async"></div>
+            <div class="card fade-in" id="foto13"><img src="ADD52A9A-CEB9-4838-9DD6-EB6D698BE8F0.jpg" alt="Fotografía" loading="lazy" decoding="async"></div>
+            <div class="card fade-in" id="foto14"><img src="B4507248-089F-4A31-B7E1-625C47AFB45B.jpg" alt="Fotografía" loading="lazy" decoding="async"></div>
+            <div class="card fade-in" id="foto15"><img src="CE124D54-39D2-4D98-8E96-06ADF3FEE32A.jpg" alt="Fotografía" loading="lazy" decoding="async"></div>
+            <div class="card fade-in" id="foto16"><img src="CFD15C81-80FC-4519-8058-E7C510F24AFD.jpg" alt="Fotografía" loading="lazy" decoding="async"></div>
+            <div class="card fade-in" id="foto17"><img src="E17332B7-99BF-4923-8039-34D75306E454.jpg" alt="Fotografía" loading="lazy" decoding="async"></div>
+            <div class="card fade-in" id="foto18"><img src="E2E376A3-62C2-4CEF-A7B4-5206C45CB3D2.jpg" alt="Fotografía" loading="lazy" decoding="async"></div>
             
-            <div class="card fade-in" id="foto19"><img src="25-32_page-0001.jpg" alt="Fotografía"></div>
-            <div class="card fade-in" id="foto20"><img src="25-32_page-0002.jpg" alt="Fotografía"></div>
-            <div class="card fade-in" id="foto21"><img src="25-32_page-0003.jpg" alt="Fotografía"></div>
-            <div class="card fade-in" id="foto22"><img src="25-32_page-0004.jpg" alt="Fotografía"></div>
-            <div class="card fade-in" id="foto23"><img src="25-32_page-0005.jpg" alt="Fotografía"></div>
-            <div class="card fade-in" id="foto24"><img src="25-32_page-0006.jpg" alt="Fotografía"></div>
-            <div class="card fade-in" id="foto25"><img src="25-32_page-0007.jpg" alt="Fotografía"></div>
-            <div class="card fade-in" id="foto26"><img src="25-32_page-0008.jpg" alt="Fotografía"></div>
+            <div class="card fade-in" id="foto19"><img src="25-32_page-0001.jpg" alt="Fotografía" loading="lazy" decoding="async"></div>
+            <div class="card fade-in" id="foto20"><img src="25-32_page-0002.jpg" alt="Fotografía" loading="lazy" decoding="async"></div>
+            <div class="card fade-in" id="foto21"><img src="25-32_page-0003.jpg" alt="Fotografía" loading="lazy" decoding="async"></div>
+            <div class="card fade-in" id="foto22"><img src="25-32_page-0004.jpg" alt="Fotografía" loading="lazy" decoding="async"></div>
+            <div class="card fade-in" id="foto23"><img src="25-32_page-0005.jpg" alt="Fotografía" loading="lazy" decoding="async"></div>
+            <div class="card fade-in" id="foto24"><img src="25-32_page-0006.jpg" alt="Fotografía" loading="lazy" decoding="async"></div>
+            <div class="card fade-in" id="foto25"><img src="25-32_page-0007.jpg" alt="Fotografía" loading="lazy" decoding="async"></div>
+            <div class="card fade-in" id="foto26"><img src="25-32_page-0008.jpg" alt="Fotografía" loading="lazy" decoding="async"></div>
         </section>
     </div>
 
@@ -266,41 +258,37 @@
         <p>&copy; 2026 Luver López. Todos los derechos reservados.</p>
     </footer>
 
-    <!-- Botón Volver Arriba -->
     <button id="btnTop" title="Volver arriba">↑</button>
 
     <script>
-        // SCRIPT 1: MAGIA DE LA GEOMETRÍA EN ARCO (PARÁBOLA)
+        // SCRIPT 1: MAGIA DE LA GEOMETRÍA EN ARCO (OPTIMIZADA)
         const marqueeItems = document.querySelectorAll('.marquee-item');
         const screenCenter = window.innerWidth / 2;
 
         function updateGeometry() {
+            // FASE 1: LEER DATOS (Evita colapso gráfico)
+            const calculations = [];
             marqueeItems.forEach(item => {
                 const rect = item.getBoundingClientRect();
                 const itemCenter = rect.left + (rect.width / 2);
-                
-                // Distancia desde el centro real de la pantalla
                 const distanceFromCenter = itemCenter - screenCenter;
-                
-                // Normalizamos la distancia (entre -1 y 1 para los extremos de la pantalla)
                 const normalizedDist = distanceFromCenter / screenCenter;
                 
-                // 1. Efecto "Sonrisa": Al elevar al cuadrado, siempre da positivo, y al multiplicar por -80 
-                // hace que las fotos suban hasta 80px en los extremos, creando la curva.
                 const translateY = Math.pow(normalizedDist, 2) * -80;
-                
-                // 2. Rotación: Rota las fotos hacia el centro. 
-                // Los de la izq (negativo) rotan en positivo (derecha). Los de la der (positivo) rotan negativo (izq).
                 const rotate = normalizedDist * -12; 
-                
-                // Aplicamos directo al contenedor (super fluido)
-                item.style.transform = `translateY(${translateY}px) rotate(${rotate}deg)`;
+                calculations.push(`translateY(${translateY}px) rotate(${rotate}deg)`);
             });
+            
+            // FASE 2: ESCRIBIR CAMBIOS
+            marqueeItems.forEach((item, index) => {
+                item.style.transform = calculations[index];
+            });
+            
             requestAnimationFrame(updateGeometry);
         }
         updateGeometry();
 
-        // SCRIPT 2: ANIMACIONES (Fade-in y Volver arriba)
+        // SCRIPT 2: ANIMACIONES
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
